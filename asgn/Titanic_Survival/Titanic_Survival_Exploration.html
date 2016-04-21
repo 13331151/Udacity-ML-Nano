@@ -1606,7 +1606,7 @@ Make sure to keep track of the various features and conditions you tried before 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[92]:</div>
+<div class="prompt input_prompt">In&nbsp;[94]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">predictions_3</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
@@ -1615,13 +1615,28 @@ Make sure to keep track of the various features and conditions you tried before 
     <span class="n">predictions</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">passenger</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
         
-        <span class="c1"># Remove the &#39;pass&#39; statement below </span>
-        <span class="c1"># and write your prediction conditions here</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        At the very beginning, we can choose the root feature to split by using &#39;survival_stats(data, outcomes, feature)&#39;,</span>
+<span class="sd">        which in this case should be &#39;Sex&#39;. Then set the Sex as a pre-condition and explore the next possible feature to split</span>
+<span class="sd">        by using &#39;survival_stats(data, outcomes, feature, [&#39;Sex == &quot;female&quot;&#39;])&#39; as well as &#39;survival_stats(data, outcomes, feature, [&#39;Sex == &quot;male&quot;&#39;]&#39;.</span>
+<span class="sd">        After several iterations, we can build a decision tree as below:</span>
+<span class="sd">                                    Sex</span>
+<span class="sd">                                  /        \</span>
+<span class="sd">                      male /             \female</span>
+<span class="sd">                             /                 \</span>
+<span class="sd">                         Age                Pclass</span>
+<span class="sd">                        /  \                     /  \</span>
+<span class="sd">              &gt;=10/     \ &lt;10    ==3/      \ !=3</span>
+<span class="sd">                 !Surv.  Surv.    Parch    Surv.</span>
+<span class="sd">                                           / \</span>
+<span class="sd">                                   !=0 /     \==0</span>
+<span class="sd">                                    !Surv.  Surv.</span>
+<span class="sd">        According to the graph, we can see that, use the combination of &#39;Sex&#39;, &#39;Age&#39;, &#39;Pclass&#39;, &#39;Parch&#39; is already able to achieve the accuracy at least 80%</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">predictions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span> \
                 <span class="k">if</span> <span class="p">(</span><span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Sex&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;female&quot;</span>  <span class="ow">and</span> <span class="p">(</span><span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Pclass&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">3</span> <span class="ow">or</span> <span class="n">passenger</span><span class="p">[</span><span class="s1">&#39;Parch&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span> <span class="ow">or</span> \
                     <span class="p">(</span><span class="n">passenger</span><span class="p">[</span><span class="s2">&quot;Sex&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;male&quot;</span> <span class="ow">and</span> <span class="n">passenger</span><span class="p">[</span><span class="s2">&quot;Age&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">)</span> \
                            <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="k">pass</span>
     
     <span class="c1"># Return our predictions</span>
     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
@@ -1701,7 +1716,7 @@ Make sure to keep track of the various features and conditions you tried before 
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer</strong>: House Price Predicting (or any case whose label is related to its features but not easy to be hard-coded)</p>
+<p><strong>Answer</strong>: House Price Predicting (or any case whose label is related to its features but not easy to be hard-coded), in which case, the square feet of house and the number of bathroom could be both important factors to predict the house price.</p>
 
 </div>
 </div>
